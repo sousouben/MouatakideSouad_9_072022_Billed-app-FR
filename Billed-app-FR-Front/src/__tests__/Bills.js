@@ -10,9 +10,9 @@ import {localStorageMock} from "../__mocks__/localStorage.js";
 
 import router from "../app/Router.js";
 
-describe("Given I am connected as an employee", () => {
-  describe("When I am on Bills Page", () => {
-    test("Then bill icon in vertical layout should be highlighted", async () => {
+describe("Given I am connected as an employee", () => {//Étant donné que je suis connecté en tant qu'employé
+  describe("When I am on Bills Page", () => {//Quand je suis sur la page Bills(factures)
+    test("Then bill icon in vertical layout should be highlighted", async () => {//Ensuite, l'icône de la facture dans la disposition verticale doit être mise en surbrillance
 
       Object.defineProperty(window, 'localStorage', { value: localStorageMock })
       window.localStorage.setItem('user', JSON.stringify({
@@ -28,7 +28,7 @@ describe("Given I am connected as an employee", () => {
       //to-do write expect expression
 
     })
-    test("Then bills should be ordered from earliest to latest", () => {
+    test("Then bills should be ordered from earliest to latest", () => {//Ensuite, les factures doivent être commandées du plus ancien au plus tard
       document.body.innerHTML = BillsUI({ data: bills })
       const dates = screen.getAllByText(/^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i).map(a => a.innerHTML)
       const antiChrono = (a, b) => ((a < b) ? 1 : -1)

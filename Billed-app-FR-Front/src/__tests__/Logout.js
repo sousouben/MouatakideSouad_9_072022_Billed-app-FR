@@ -26,9 +26,9 @@ const bills = [{
   "pct": 20,
 }]
 
-describe('Given I am connected', () => {
-  describe('When I click on disconnect button', () => {
-    test(('Then, I should be sent to login page'), () => {
+describe('Given I am connected', () => {//Étant donné que je suis connecté
+  describe('When I click on disconnect button', () => {//Quand je clique sur le bouton de déconnexion
+    test(('Then, I should be sent to login page'), () => {//Ensuite, je devrais être envoyé à la page de connexion
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
       }

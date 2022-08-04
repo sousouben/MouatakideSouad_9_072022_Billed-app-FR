@@ -15,40 +15,40 @@ import router from "../app/Router"
 
 jest.mock("../app/store", () => mockStore)
 
-describe('Given I am connected as an Admin', () => {
-  describe('When I am on Dashboard page, there are bills, and there is one pending', () => {
-    test('Then, filteredBills by pending status should return 1 bill', () => {
+describe('Given I am connected as an Admin', () => {//Étant donné que je suis connecté en tant qu'administrateur
+  describe('When I am on Dashboard page, there are bills, and there is one pending', () => {//Quand je suis sur la page Tableau de bord, il y a des factures et il y en a une en attente
+    test('Then, filteredBills by pending status should return 1 bill', () => {//Ensuite, les factures filtrées par statut en attente devraient renvoyer 1 facture
       const filtered_bills = filteredBills(bills, "pending")
       expect(filtered_bills.length).toBe(1)
     })
   })
-  describe('When I am on Dashboard page, there are bills, and there is one accepted', () => {
-    test('Then, filteredBills by accepted status should return 1 bill', () => {
+  describe('When I am on Dashboard page, there are bills, and there is one accepted', () => {//Quand je suis sur la page Dashboard, il y a des factures, et il y en a une acceptée
+    test('Then, filteredBills by accepted status should return 1 bill', () => {//Ensuite, les factures filtrées par statut accepté doivent renvoyer 1 facture
       const filtered_bills = filteredBills(bills, "accepted")
       expect(filtered_bills.length).toBe(1)
     })
   })
-  describe('When I am on Dashboard page, there are bills, and there is two refused', () => {
-    test('Then, filteredBills by accepted status should return 2 bills', () => {
+  describe('When I am on Dashboard page, there are bills, and there is two refused', () => {//Quand je suis sur la page Dashboard, il y a des factures, et il y en a deux refusées
+    test('Then, filteredBills by accepted status should return 2 bills', () => {//Ensuite, les factures filtrées par statut accepté devraient renvoyer 2 factures
       const filtered_bills = filteredBills(bills, "refused")
       expect(filtered_bills.length).toBe(2)
     })
   })
-  describe('When I am on Dashboard page but it is loading', () => {
-    test('Then, Loading page should be rendered', () => {
+  describe('When I am on Dashboard page but it is loading', () => {//Lorsque je suis sur la page du tableau de bord mais qu'il est en cours de chargement
+    test('Then, Loading page should be rendered', () => {//Ensuite, la page de chargement doit être rendue
       document.body.innerHTML = DashboardUI({ loading: true })
       expect(screen.getAllByText('Loading...')).toBeTruthy()
     })
   })
-  describe('When I am on Dashboard page but back-end send an error message', () => {
-    test('Then, Error page should be rendered', () => {
+  describe('When I am on Dashboard page but back-end send an error message', () => {//Lorsque je suis sur la page du tableau de bord mais que le back-end envoie un message d'erreur
+    test('Then, Error page should be rendered', () => {//Ensuite, la page d'erreur doit être rendue
       document.body.innerHTML = DashboardUI({ error: 'some error message' })
       expect(screen.getAllByText('Erreur')).toBeTruthy()
     })
   })
 
-  describe('When I am on Dashboard page and I click on arrow', () => {
-    test('Then, tickets list should be unfolding, and cards should appear', async () => {
+  describe('When I am on Dashboard page and I click on arrow', () => {//Quand je suis sur la page Tableau de bord et que je clique sur la flèche
+    test('Then, tickets list should be unfolding, and cards should appear', async () => {//Ensuite, la liste des billets devrait se dérouler et les cartes devraient apparaître
 
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
@@ -91,8 +91,8 @@ describe('Given I am connected as an Admin', () => {
     })
   })
 
-  describe('When I am on Dashboard page and I click on edit icon of a card', () => {
-    test('Then, right form should be filled',  () => {
+  describe('When I am on Dashboard page and I click on edit icon of a card', () => {//Lorsque je suis sur la page Tableau de bord et que je clique sur l'icône d'édition d'une carte
+    test('Then, right form should be filled',  () => {//Ensuite, le bon formulaire doit être rempli
 
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
@@ -119,8 +119,8 @@ describe('Given I am connected as an Admin', () => {
     })
   })
 
-  describe('When I am on Dashboard page and I click 2 times on edit icon of a card', () => {
-    test('Then, big bill Icon should Appear',  () => {
+  describe('When I am on Dashboard page and I click 2 times on edit icon of a card', () => {//Lorsque je suis sur la page Tableau de bord et que je clique 2 fois sur l'icône d'édition d'une carte
+    test('Then, big bill Icon should Appear',  () => {//Ensuite, l'icône de la grosse facture devrait apparaître
 
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
@@ -151,8 +151,8 @@ describe('Given I am connected as an Admin', () => {
   })
 
 
-  describe('When I am on Dashboard and there are no bills', () => {
-    test('Then, no cards should be shown', () => {
+  describe('When I am on Dashboard and there are no bills', () => {//Quand je suis sur Dashboard et qu'il n'y a pas de factures
+    test('Then, no cards should be shown', () => {//Ensuite, aucune carte ne doit être montrée
       document.body.innerHTML = cards([])
       const iconEdit = screen.queryByTestId('open-bill47qAXb6fIm2zOKkLzMro')
       expect(iconEdit).toBeNull()
@@ -160,9 +160,9 @@ describe('Given I am connected as an Admin', () => {
   })
 })
 
-describe('Given I am connected as Admin, and I am on Dashboard page, and I clicked on a pending bill', () => {
-  describe('When I click on accept button', () => {
-    test('I should be sent on Dashboard with big billed icon instead of form', () => {
+describe('Given I am connected as Admin, and I am on Dashboard page, and I clicked on a pending bill', () => {//Étant donné que je suis connecté en tant qu'administrateur, que je suis sur la page du tableau de bord et que j'ai cliqué sur une facture en attente
+  describe('When I click on accept button', () => {//Quand je clique sur le bouton accepter
+    test('I should be sent on Dashboard with big billed icon instead of form', () => {//Je devrais être envoyé sur le tableau de bord avec une grande icône facturée au lieu du formulaire
       Object.defineProperty(window, 'localStorage', { value: localStorageMock })
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Admin'
@@ -186,8 +186,8 @@ describe('Given I am connected as Admin, and I am on Dashboard page, and I click
       expect(bigBilledIcon).toBeTruthy()
     })
   })
-  describe('When I click on refuse button', () => {
-    test('I should be sent on Dashboard with big billed icon instead of form', () => {
+  describe('When I click on refuse button', () => {//Quand je clique sur le bouton Refuser
+    test('I should be sent on Dashboard with big billed icon instead of form', () => {//Je devrais être envoyé sur le tableau de bord avec une grande icône facturée au lieu du formulaire
       Object.defineProperty(window, 'localStorage', { value: localStorageMock })
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Admin'
@@ -212,9 +212,9 @@ describe('Given I am connected as Admin, and I am on Dashboard page, and I click
   })
 })
 
-describe('Given I am connected as Admin and I am on Dashboard page and I clicked on a bill', () => {
-  describe('When I click on the icon eye', () => {
-    test('A modal should open', () => {
+describe('Given I am connected as Admin and I am on Dashboard page and I clicked on a bill', () => {//Étant donné que je suis connecté en tant qu'administrateur et que je suis sur la page du tableau de bord et que j'ai cliqué sur une facture
+  describe('When I click on the icon eye', () => {//Quand je clique sur l'icone oeil
+    test('A modal should open', () => {//Un modal devrait s'ouvrir
       Object.defineProperty(window, 'localStorage', { value: localStorageMock })
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Admin'
@@ -241,9 +241,9 @@ describe('Given I am connected as Admin and I am on Dashboard page and I clicked
 })
 
 // test d'intégration GET
-describe("Given I am a user connected as Admin", () => {
-  describe("When I navigate to Dashboard", () => {
-    test("fetches bills from mock API GET", async () => {
+describe("Given I am a user connected as Admin", () => {//Étant donné que je suis un utilisateur connecté en tant qu'administrateur
+  describe("When I navigate to Dashboard", () => {//Lorsque je navigue vers le tableau de bord
+    test("fetches bills from mock API GET", async () => {//récupère les factures de l'API simulée GET
       localStorage.setItem("user", JSON.stringify({ type: "Admin", email: "a@a" }));
       const root = document.createElement("div")
       root.setAttribute("id", "root")
@@ -257,7 +257,7 @@ describe("Given I am a user connected as Admin", () => {
       expect(contentRefused).toBeTruthy()
       expect(screen.getByTestId("big-billed-icon")).toBeTruthy()
     })
-  describe("When an error occurs on API", () => {
+  describe("When an error occurs on API", () => {//Lorsqu'une erreur se produit sur l'API
     beforeEach(() => {
       jest.spyOn(mockStore, "bills")
       Object.defineProperty(
@@ -274,7 +274,7 @@ describe("Given I am a user connected as Admin", () => {
       document.body.appendChild(root)
       router()
     })
-    test("fetches bills from an API and fails with 404 message error", async () => {
+    test("fetches bills from an API and fails with 404 message error", async () => {//récupère les factures d'une API et échoue avec une erreur de message 404
 
       mockStore.bills.mockImplementationOnce(() => {
         return {
@@ -288,7 +288,7 @@ describe("Given I am a user connected as Admin", () => {
       expect(message).toBeTruthy()
     })
 
-    test("fetches messages from an API and fails with 500 message error", async () => {
+    test("fetches messages from an API and fails with 500 message error", async () => {//récupère les messages d'une API et échoue avec une erreur de message 500
 
       mockStore.bills.mockImplementationOnce(() => {
         return {
