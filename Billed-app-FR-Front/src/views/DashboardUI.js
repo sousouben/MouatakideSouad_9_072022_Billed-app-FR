@@ -7,11 +7,12 @@ import ArrowIcon from '../assets/svg/arrow.js'
 
 export default ({ data, loading, error }) => {
 
-  if (loading) {
+  if (loading) {    
     return LoadingPage()
   } else if (error) {
     return ErrorPage(error)
   }
+  console.log(filteredBills(data && data.bills, "pending"))
 
   return (`
     <div class='layout'>
