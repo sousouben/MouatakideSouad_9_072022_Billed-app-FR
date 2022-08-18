@@ -8,7 +8,7 @@ import Logout from "./Logout.js"
 export const filteredBills = (data, status) => {
   return (data && data.length) ?
     data.filter(bill => {
-      console.log(bill.status)
+      //console.log(bill.status)
       let selectCondition
 
       // in jest environment
@@ -24,7 +24,7 @@ export const filteredBills = (data, status) => {
           ![...USERS_TEST, userEmail].includes(bill.email)
           
       }
-console.log(selectCondition)
+//console.log(selectCondition)
       return selectCondition
 
     }) : []

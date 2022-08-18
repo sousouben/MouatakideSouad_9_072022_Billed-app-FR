@@ -7,6 +7,8 @@ import Login from "../containers/Login.js";
 import { ROUTES } from "../constants/routes";
 import { fireEvent, screen } from "@testing-library/dom";
 
+
+//page de connexion
 describe("Given that I am a user on login page", () => {//Étant donné que je suis un utilisateur sur la page de login (connexion)
   describe("When I do not fill fields and I click on employee button Login In", () => {//Quand je ne remplis pas les champs et que je clique sur le bouton Employé Se connecter
     test("Then It should renders Login page", () => {//Ensuite, il devrait rendre la page de connexion

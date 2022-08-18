@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "jest --coverage --watchAll --verbose"
+    "test": "jest --coverage --noStackTrace --silent"
   },
   "jest": {
     "verbose": false,
@@ -28,6 +28,7 @@
     "@testing-library/dom": "^7.20.0",
     "@testing-library/jest-dom": "^5.11.0",
     "@testing-library/user-event": "^12.0.11",
+    "@types/jest": "^28.1.7",
     "babel-jest": "^26.1.0",
     "jest": "^26.1.0",
     "jest-environment-jsdom": "^27.4.6",

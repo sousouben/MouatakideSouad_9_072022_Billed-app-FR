@@ -15,6 +15,8 @@ import router from "../app/Router"
 
 jest.mock("../app/store", () => mockStore)
 
+//Action sur la page administrateur
+
 describe('Given I am connected as an Admin', () => {//Étant donné que je suis connecté en tant qu'administrateur
   describe('When I am on Dashboard page, there are bills, and there is one pending', () => {//Quand je suis sur la page Tableau de bord, il y a des factures et il y en a une en attente
     test('Then, filteredBills by pending status should return 1 bill', () => {//Ensuite, les factures filtrées par statut en attente devraient renvoyer 1 facture

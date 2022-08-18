@@ -10,6 +10,7 @@ import DashboardUI from "../views/DashboardUI.js"
 import userEvent from '@testing-library/user-event'
 import { ROUTES } from "../constants/routes"
 
+//gestion de la déconnexion
 const bills = [{
   "id": "47qAXb6fIm2zOKkLzMro",
   "vat": "80",

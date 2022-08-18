@@ -6,6 +6,7 @@ import { screen } from "@testing-library/dom"
 import Actions from "../views/Actions.js"
 import '@testing-library/jest-dom/extend-expect'
 
+//Action sur la page employée
 
 describe('Given I am connected as an Employee', () => {//Étant donné que je suis connecté en tant qu'employé
   describe('When I am on Bills page and there are bills', () => {//Quand je suis sur la page Factures et qu'il y a des factures

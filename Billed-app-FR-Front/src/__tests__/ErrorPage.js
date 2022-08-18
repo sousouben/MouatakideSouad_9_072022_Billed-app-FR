@@ -5,6 +5,7 @@
 import { screen } from "@testing-library/dom"
 import ErrorPage from "../views/ErrorPage.js"
 
+//gestion des erreurs des pages admin et employées
 describe('Given I am connected on app (as an Employee or an HR admin)', () => {//Étant donné que je suis connecté sur l'application (en tant qu'employé ou administrateur RH)
   describe('When ErrorPage is called without and error in its signature', () => {//Lorsque ErrorPage est appelé sans erreur dans sa signature
     test(('Then, it should render ErrorPage with no error message'), () => {//Ensuite, il devrait rendre ErrorPage sans message d'erreur
