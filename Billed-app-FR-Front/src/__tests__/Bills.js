@@ -53,3 +53,11 @@ describe("Given I am connected as an employee", () => {
     });
   });
 });
+
+// test du click sur l'icon en oeil ligne 14 containers/Bills.js
+
+// test ROUTES_PATH ligne 20 containers/Bills.js
+
+// test handleClickIconEye ligne 24-27 containers/Bills.js
+
+// test const bills ligne 36-56 containers/Bills.js
