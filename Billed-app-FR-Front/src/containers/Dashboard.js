@@ -147,6 +147,7 @@ export default class {
         .html("")
       this.counter ++
     }
+    //[Bug Hunt] - Dashboard
 //tableau de tous les clicks pour les tickets
     bills.forEach(bill => {
       $(`#open-bill${bill.id}`).off("click").on("click",((e) => this.handleEditTicket(e, bill, bills)))

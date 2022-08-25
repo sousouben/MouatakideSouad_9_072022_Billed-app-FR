@@ -36,6 +36,7 @@ describe("Given I am connected as an employee", () => {
       await waitFor(() => screen.getByTestId("icon-window"));
       const windowIcon = screen.getByTestId("icon-window");
       //to-do write expect expression
+      //Ajout de la mention expect
       expect(windowIcon.classList.contains('active-icon')).toBe(true)// dois etre true et non false
     });
     
@@ -47,6 +48,7 @@ describe("Given I am connected as an employee", () => {
           /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i
         )
         .map((a) => a.innerHTML);
+        //[Bug report] - Bills
       const antiChrono = (a, b) => a - b;
       const datesSorted = [...dates].sort(antiChrono);
       expect(dates).toEqual(datesSorted);

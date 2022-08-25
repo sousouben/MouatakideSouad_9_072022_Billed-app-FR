@@ -19,6 +19,7 @@ export default class NewBill {
     e.preventDefault()
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     //format autorisé
+    //[Bug Hunt] - Bills
     const formatAutorise = [ "image/jpg", "image/png","image/jpeg", ]
     let controlFormat = formatAutorise.includes(file.type)
 
