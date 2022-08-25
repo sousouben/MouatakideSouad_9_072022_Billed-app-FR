@@ -2,11 +2,12 @@
  * @jest-environment jsdom
  */
 
-import { screen, waitFor } from "@testing-library/dom";
+import { screen, waitFor, fireEvent } from "@testing-library/dom";
 import BillsUI from "../views/BillsUI.js";
 import { bills } from "../fixtures/bills.js";
 import { ROUTES_PATH } from "../constants/routes.js";
 import { localStorageMock } from "../__mocks__/localStorage.js";
+import Bills from "../containers/Bills.js";
 
 import router from "../app/Router.js";
 
@@ -37,9 +38,9 @@ describe("Given I am connected as an employee", () => {
       const windowIcon = screen.getByTestId("icon-window");
       //to-do write expect expression
       //Ajout de la mention expect
-      expect(windowIcon.classList.contains('active-icon')).toBe(true)// dois etre true et non false
+      expect(windowIcon.classList.contains("active-icon")).toBe(true); // dois etre true et non false
     });
-    
+
     test("Then bills should be ordered from earliest to latest", () => {
       //Ensuite, les factures doivent être commandées du plus ancien au plus tard
       document.body.innerHTML = BillsUI({ data: bills });
@@ -48,15 +49,46 @@ describe("Given I am connected as an employee", () => {
           /^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$/i
         )
         .map((a) => a.innerHTML);
-        //[Bug report] - Bills
+      //[Bug report] - Bills
       const antiChrono = (a, b) => a - b;
       const datesSorted = [...dates].sort(antiChrono);
       expect(dates).toEqual(datesSorted);
     });
+
   });
 });
+describe("When I click on first eye icon", () => {
+  test("Then modal should open", () => {
+    Object.defineProperty(window, localStorage, { value: localStorageMock });
+    window.localStorage.setItem("user", JSON.stringify({ type: "Employee" }));
+    const html = BillsUI({ data: bills });
+    document.body.innerHTML = html;
 
-// test du click sur l'icon en oeil ligne 14 containers/Bills.js
+    const onNavigate = (pathname) => {
+      document.body.innerHTML = ROUTES({ pathname });
+    };
+
+    const billsContainer = new Bills({
+      document,
+      onNavigate,
+      localStorage: localStorageMock,
+      store: null,
+    });
+
+    //MOCK THE MODAL
+    $.fn.modal = jest.fn();
+
+    //MOCK THE HANDLE CLICK ICON
+    const handleClickIconEye = jest.fn(() => {
+      billsContainer.handleClickIconEye;
+    });
+    const firstEyeIcon = screen.getAllByTestId("icon-eye")[0];
+    firstEyeIcon.addEventListener("click", handleClickIconEye);
+    fireEvent.click(firstEyeIcon);
+    expect(handleClickIconEye).toHaveBeenCalled();
+    expect($.fn.modal).toHaveBeenCalled();
+  });
+});
 
 // test ROUTES_PATH ligne 20 containers/Bills.js
 
