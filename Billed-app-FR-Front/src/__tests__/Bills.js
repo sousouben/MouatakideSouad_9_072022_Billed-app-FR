@@ -5,9 +5,10 @@
 import { screen, waitFor, fireEvent } from "@testing-library/dom";
 import BillsUI from "../views/BillsUI.js";
 import { bills } from "../fixtures/bills.js";
-import { ROUTES_PATH } from "../constants/routes.js";
+import {  ROUTES, ROUTES_PATH } from "../constants/routes.js";
 import { localStorageMock } from "../__mocks__/localStorage.js";
 import Bills from "../containers/Bills.js";
+import mockStore from "../__mocks__/store";
 
 import router from "../app/Router.js";
 
@@ -57,9 +58,11 @@ describe("Given I am connected as an employee", () => {
 
   });
 });
-describe("When I click on first eye icon", () => {
-  test("Then modal should open", () => {
-    Object.defineProperty(window, localStorage, { value: localStorageMock });
+//test handleClickIconEye ligne 14 containers/Bills.js
+
+describe("When I click on first eye icon", () => {//Lorsque je clique sur l'icône du premier œil
+  test("Then modal should open", () => {//Ensuite, la modale devrait s'ouvrir
+    Object.defineProperty(window, localStorage, { value: localStorageMock });//renvoie l'objet modifié
     window.localStorage.setItem("user", JSON.stringify({ type: "Employee" }));
     const html = BillsUI({ data: bills });
     document.body.innerHTML = html;
@@ -75,23 +78,60 @@ describe("When I click on first eye icon", () => {
       store: null,
     });
 
-    //MOCK THE MODAL
+    //MOCK de la modale
     $.fn.modal = jest.fn();
 
-    //MOCK THE HANDLE CLICK ICON
+    //MOCK L'ICÔNE DE CLIC
     const handleClickIconEye = jest.fn(() => {
       billsContainer.handleClickIconEye;
     });
     const firstEyeIcon = screen.getAllByTestId("icon-eye")[0];
     firstEyeIcon.addEventListener("click", handleClickIconEye);
     fireEvent.click(firstEyeIcon);
-    expect(handleClickIconEye).toHaveBeenCalled();
+    expect(handleClickIconEye).toHaveBeenCalled();//assurer qu'une fonction simulée a été appelée avec des arguments spécifiques
     expect($.fn.modal).toHaveBeenCalled();
   });
 });
 
-// test ROUTES_PATH ligne 20 containers/Bills.js
+// test naviagtion ligne 21 containers/Bills.js
+describe("When i click the button 'Nouvelle note de frais'", () => {//je clique sur le bouton nouvelle note de frais
+  test("Then newbill appears", () => { // Vérifie qu'on arrive bien sur la page NewBill
+    //J'intègre le chemin d'accès
+    const onNavigate = (pathname) => {
+      document.body.innerHTML = ROUTES({ pathname })
+    }
+    const billsPage = new Bills({
+      document,
+      onNavigate,
+      store: null,
+      bills: bills,
+      localStorage: window.localStorage
+    })
+    //création constante pour la fonction qui appel la fonction a tester
+    const OpenNewBill = jest.fn(billsPage.handleClickNewBill);
+    const btnNewBill = screen.getByTestId("btn-new-bill")//cible le btn nouvelle note de frais
+    btnNewBill.addEventListener("click", OpenNewBill)//écoute évènement
+    fireEvent.click(btnNewBill)//simule évènement au click
+    // on vérifie que la fonction est appelée et que la page souhaitée s'affiche
+    expect(OpenNewBill).toHaveBeenCalled()//je m'attends à ce que la page nouvelle note de frais se charge
+    expect(screen.getByText("Envoyer une note de frais")).toBeTruthy()//la nouvelle note de frais apparait avec entête envoyer une note de frais
+  })
+})
 
-// test handleClickIconEye ligne 24-27 containers/Bills.js
+// test const bills ligne 37-57 containers/Bills.js
+describe("When I get bills", () => {//Quand je reçois des factures
+  test("Then it should render bills", async () => {//Ensuite, il devrait rendre les factures
+    const bills = new Bills({
+      document,
+      onNavigate,
+      store: mockStore,
+      localStorage: window.localStorage,
+    });
+    const getBills = jest.fn(() => bills.getBills());
+    const value = await getBills();
+    expect(getBills).toHaveBeenCalled();
+    expect(value.length).toBe(4);
+  });
+});
 
-// test const bills ligne 36-56 containers/Bills.js
+
