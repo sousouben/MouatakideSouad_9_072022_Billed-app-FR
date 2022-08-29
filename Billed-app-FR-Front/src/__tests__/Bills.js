@@ -11,6 +11,7 @@ import Bills from "../containers/Bills.js";
 import mockStore from "../__mocks__/store";
 
 import router from "../app/Router.js";
+jest.mock("../app/Store", () => mockStore)
 
 //test sur la page employée des factures
 
