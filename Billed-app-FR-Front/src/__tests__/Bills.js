@@ -68,7 +68,7 @@ describe("When I click on first eye icon", () => {//Lorsque je clique sur l'icô
     const html = BillsUI({ data: bills });
     document.body.innerHTML = html;
 
-    const onNavigate = (pathname) => {
+    const onNavigate = (pathname) => {//navigation vers la route bills
       document.body.innerHTML = ROUTES({ pathname });
     };
 
@@ -80,10 +80,10 @@ describe("When I click on first eye icon", () => {//Lorsque je clique sur l'icô
     });
 
     //MOCK de la modale
-    $.fn.modal = jest.fn();
+    $.fn.modal = jest.fn();//jquery
 
     //MOCK L'ICÔNE DE CLIC
-    const handleClickIconEye = jest.fn(() => {
+    const handleClickIconEye = jest.fn(() => {//mock de la fonction
       billsContainer.handleClickIconEye;
     });
     const firstEyeIcon = screen.getAllByTestId("icon-eye")[0];
@@ -109,13 +109,13 @@ describe("When i click the button 'Nouvelle note de frais'", () => {//je clique 
       localStorage: window.localStorage
     })
     //création constante pour la fonction qui appel la fonction a tester
-    const OpenNewBill = jest.fn(billsPage.handleClickNewBill);
+    const OpenNewBill = jest.fn(billsPage.handleClickNewBill);//l20 bills.js
     const btnNewBill = screen.getByTestId("btn-new-bill")//cible le btn nouvelle note de frais
     btnNewBill.addEventListener("click", OpenNewBill)//écoute évènement
     fireEvent.click(btnNewBill)//simule évènement au click
     // on vérifie que la fonction est appelée et que la page souhaitée s'affiche
     expect(OpenNewBill).toHaveBeenCalled()//je m'attends à ce que la page nouvelle note de frais se charge
-    expect(screen.getByText("Envoyer une note de frais")).toBeTruthy()//la nouvelle note de frais apparait avec entête envoyer une note de frais
+    expect(screen.getByText("Envoyer une note de frais")).toBeTruthy()//la nouvelle note de frais apparait avec le titre envoyer une note de frais
   })
 })
 
@@ -128,11 +128,60 @@ describe("When I get bills", () => {//Quand je reçois des factures
       store: mockStore,
       localStorage: window.localStorage,
     });
-    const getBills = jest.fn(() => bills.getBills());
+    const getBills = jest.fn(() => bills.getBills());//MOCK DE BILLS      
     const value = await getBills();
-    expect(getBills).toHaveBeenCalled();
-    expect(value.length).toBe(4);
+    expect(getBills).toHaveBeenCalled();//ON TEST SI LA METHODE EST APPELEE
+    expect(value.length).toBe(4);//test si la longeur du tableau est a 4 du store.js
   });
 });
 
+//TEST ERREUR 404 ET 500
+
+describe("When an error occurs on API", () => { //Lorsqu'une erreur se produit sur l'API
+  beforeEach(() => {
+    jest.spyOn(mockStore, 'bills')
+    Object.defineProperty(window, 'localStorage', {
+      value: localStorageMock,
+    })
+    window.localStorage.setItem(
+      'user',
+      JSON.stringify({
+        type: 'Employee',
+        email: 'a@a',
+      })
+    )
+    const root = document.createElement('div')
+    root.setAttribute('id', 'root')
+    document.body.appendChild(root)
+    router()
+  })
+
+  test("Then i fetch the invoices in the api and it fails with a 404 error", async () => {//Ensuite, je récupère les factures dans l'api et cela échoue avec une erreur 404
+    mockStore.bills.mockImplementationOnce(() => {//MOCK BILLS DANS LE STORE.JS
+      return {
+        list: () => {
+          return Promise.reject(new Error("Erreur 404"))
+        }
+      }
+    })
+    window.onNavigate(ROUTES_PATH.Bills)
+    await new Promise(process.nextTick)
+    const message = screen.getByText(/Erreur 404/)
+    expect(message).toBeTruthy()
+  })
+
+  test("Then i fetch the invoices in the api and it fails with a 500 error", async () => {//Ensuite, je récupère les factures dans l'api et cela échoue avec une erreur 500
+    mockStore.bills.mockImplementationOnce(() => {
+      return {
+        list: () => {
+          return Promise.reject(new Error("Erreur 500"))
+        }
+      }
+    })
+    window.onNavigate(ROUTES_PATH.Bills)
+    await new Promise(process.nextTick)
+    const message = screen.getByText(/Erreur 500/)
+    expect(message).toBeTruthy()
+  })
+});
 

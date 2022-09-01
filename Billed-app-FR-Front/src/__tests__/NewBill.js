@@ -63,7 +63,7 @@ describe("When i download the attached file in the wrong format", () => {  //je 
     })
     const LoadFile = jest.fn((e) => newBill.handleChangeFile(e))
     const fichier = screen.getByTestId("file")
-    const testFormat = new File(["c'est un test"], {
+    const testFormat = new File(["c'est un test"],"document.txt", {
     type: "document/txt"
     })
     fichier.addEventListener("change", LoadFile)
@@ -110,7 +110,6 @@ describe("When i download the attached file in the correct format ", () => {//lo
     formNewBill.addEventListener('submit', sendNewBill)//évènement au submit
     fireEvent.submit(formNewBill)//simule l'évènement
     expect(sendNewBill).toHaveBeenCalled()
-    expect(screen.getByText('Mes notes de frais')).toBeTruthy()
+    expect(screen.getByText('Mes notes de frais')).toBeTruthy()//lorsqu'on créer une nouvelle note de frais on verifie s'il est bien redirigé vers la page d'accueil
   })
-
 });

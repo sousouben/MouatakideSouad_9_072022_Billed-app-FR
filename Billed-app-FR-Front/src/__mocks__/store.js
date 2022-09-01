@@ -1,4 +1,4 @@
-const mockedBills = {
+const mockedBills = {// 4 éléments dans le tableau
   list() {
     return Promise.resolve([{
       "id": "47qAXb6fIm2zOKkLzMro",
