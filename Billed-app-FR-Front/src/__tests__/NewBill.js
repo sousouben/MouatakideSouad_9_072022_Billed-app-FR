@@ -7,8 +7,9 @@ import { fireEvent, screen } from "@testing-library/dom"
 import NewBillUI from "../views/NewBillUI.js"
 import NewBill from "../containers/NewBill.js"
 import {localStorageMock} from "../__mocks__/localStorage.js";
-import { ROUTES } from '../constants/routes'
+import { ROUTES, ROUTES_PATH } from "../constants/routes"
 import mockStore from "../__mocks__/store.js"
+import router from "../app/Router.js";
 
 window.alert = jest.fn()
 jest.mock("../app/Store", () => mockStore)
@@ -111,5 +112,103 @@ describe("When i download the attached file in the correct format ", () => {//lo
     fireEvent.submit(formNewBill)//simule l'évènement
     expect(sendNewBill).toHaveBeenCalled()
     expect(screen.getByText('Mes notes de frais')).toBeTruthy()//lorsqu'on créer une nouvelle note de frais on verifie s'il est bien redirigé vers la page d'accueil
+  })
+});
+
+//Test d'intégration POST
+describe('Given I am a user connected as Employee', () => {//Etant donné que je suis un utilisateur connecté en tant que Salarié
+  describe("When I submit the form completed", () => {//Lorsque je soumets le formulaire rempli
+     test("Then the bill is created", async() => {//Ensuite, la facture est créée
+
+        const html = NewBillUI()
+        document.body.innerHTML = html
+        
+        const onNavigate = (pathname) => {
+           document.body.innerHTML = ROUTES({pathname});
+        };
+
+        Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+        window.localStorage.setItem('user', JSON.stringify({
+              type: 'Employee',
+              email: "azerty@email.com",
+        }))
+
+        const newBill = new NewBill({
+              document,
+              onNavigate,
+              store: null,
+              localStorage: window.localStorage,
+        })
+
+        const validBill = {
+              type: "Vol",
+              name: "Paris Algerie",
+              date: "2022-10-25",
+              amount: 400,
+              vat: 70,
+              pct: 30,
+              commentary: "Commentary",
+              fileUrl: "../img/0.jpg",
+              fileName: "test.jpg",
+              status: "pending"
+        };
+
+        // Charger les valeurs dans les champs
+        screen.getByTestId("expense-type").value = validBill.type;
+        screen.getByTestId("expense-name").value = validBill.name;
+        screen.getByTestId("datepicker").value = validBill.date;
+        screen.getByTestId("amount").value = validBill.amount;
+        screen.getByTestId("vat").value = validBill.vat;
+        screen.getByTestId("pct").value = validBill.pct;
+        screen.getByTestId("commentary").value = validBill.commentary;
+
+        newBill.fileName = validBill.fileName
+        newBill.fileUrl = validBill.fileUrl;
+
+        newBill.updateBill = jest.fn();
+        const handleSubmit = jest.fn((e) => newBill.handleSubmit(e))
+
+        const form = screen.getByTestId("form-new-bill");
+        form.addEventListener("submit", handleSubmit);
+        fireEvent.submit(form)
+
+        expect(handleSubmit).toHaveBeenCalled()
+        expect(newBill.updateBill).toHaveBeenCalled()
+        
+     })
+     
+//test erreur 500
+     test('fetches error from an API and fails with 500 error', async () => {//récupère l'erreur d'une API et échoue avec l'erreur 500
+        jest.spyOn(mockStore, 'bills')
+        jest.spyOn(console, 'error').mockImplementation(() => {})// Prevent Console.error jest error
+  
+        Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+        Object.defineProperty(window, 'location', { value: { hash: ROUTES_PATH['NewBill'] } })
+  
+        window.localStorage.setItem('user', JSON.stringify({ type: 'Employee' }))
+        document.body.innerHTML = `<div id="root"></div>`
+        router()
+  
+        const onNavigate = (pathname) => {
+          document.body.innerHTML = ROUTES({ pathname })
+        }
+  
+        mockStore.bills.mockImplementationOnce(() => {
+          return {
+           update : () =>  {
+              return Promise.reject(new Error('Erreur 500'))
+            }
+          }
+        })
+        const newBill = new NewBill({document,  onNavigate, store: mockStore, localStorage: window.localStorage})
+      
+        // Soumettre le formulaire
+        const form = screen.getByTestId('form-new-bill')
+        const handleSubmit = jest.fn((e) => newBill.handleSubmit(e))
+        form.addEventListener('submit', handleSubmit)     
+        fireEvent.submit(form)
+        await new Promise(process.nextTick)
+        expect(console.error).toBeCalled()
+      })
   })
 });
