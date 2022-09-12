@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1662974816068" clover="3.2.0">
-  <project timestamp="1662974816068" name="All files">
-    <metrics statements="227" coveredstatements="210" conditionals="94" coveredconditionals="79" methods="68" coveredmethods="56" elements="389" coveredelements="345" complexity="0" loc="227" ncloc="227" packages="3" files="16" classes="16"/>
+<coverage generated="1662977976686" clover="3.2.0">
+  <project timestamp="1662977976686" name="All files">
+    <metrics statements="229" coveredstatements="212" conditionals="94" coveredconditionals="79" methods="69" coveredmethods="57" elements="392" coveredelements="348" complexity="0" loc="229" ncloc="229" packages="3" files="16" classes="16"/>
     <package name="constants">
       <metrics statements="8" coveredstatements="8" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
       <file name="routes.js" path="C:\Users\smoua\OneDrive\Bureau\projet 9\MouatakideSouad_9_072022_Billed-app-FR\Billed-app-FR-Front\src\constants\routes.js">
@@ -228,23 +228,25 @@
       </file>
     </package>
     <package name="views">
-      <metrics statements="29" coveredstatements="29" conditionals="32" coveredconditionals="32" methods="14" coveredmethods="14"/>
+      <metrics statements="31" coveredstatements="31" conditionals="32" coveredconditionals="32" methods="15" coveredmethods="15"/>
       <file name="Actions.js" path="C:\Users\smoua\OneDrive\Bureau\projet 9\MouatakideSouad_9_072022_Billed-app-FR\Billed-app-FR-Front\src\views\Actions.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="5" count="26" type="stmt"/>
       </file>
       <file name="BillsUI.js" path="C:\Users\smoua\OneDrive\Bureau\projet 9\MouatakideSouad_9_072022_Billed-app-FR\Billed-app-FR-Front\src\views\BillsUI.js">
-        <metrics statements="10" coveredstatements="10" conditionals="8" coveredconditionals="8" methods="5" coveredmethods="5"/>
+        <metrics statements="12" coveredstatements="12" conditionals="8" coveredconditionals="8" methods="6" coveredmethods="6"/>
         <line num="7" count="6" type="stmt"/>
         <line num="8" count="24" type="stmt"/>
         <line num="22" count="6" type="stmt"/>
-        <line num="23" count="24" type="cond" truecount="4" falsecount="0"/>
-        <line num="28" count="27" type="stmt"/>
-        <line num="45" count="27" type="cond" truecount="2" falsecount="0"/>
-        <line num="46" count="6" type="stmt"/>
-        <line num="47" count="21" type="cond" truecount="2" falsecount="0"/>
-        <line num="48" count="2" type="stmt"/>
-        <line num="51" count="19" type="stmt"/>
+        <line num="23" count="19" type="cond" truecount="4" falsecount="0"/>
+        <line num="25" count="33" type="stmt"/>
+        <line num="26" count="24" type="stmt"/>
+        <line num="33" count="27" type="stmt"/>
+        <line num="50" count="27" type="cond" truecount="2" falsecount="0"/>
+        <line num="51" count="6" type="stmt"/>
+        <line num="52" count="21" type="cond" truecount="2" falsecount="0"/>
+        <line num="53" count="2" type="stmt"/>
+        <line num="56" count="19" type="stmt"/>
       </file>
       <file name="DashboardFormUI.js" path="C:\Users\smoua\OneDrive\Bureau\projet 9\MouatakideSouad_9_072022_Billed-app-FR\Billed-app-FR-Front\src\views\DashboardFormUI.js">
         <metrics statements="2" coveredstatements="2" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
