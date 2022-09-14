@@ -44,7 +44,7 @@ describe("Given I am connected as an employee", () => {
     });
 
     test("Then bills should be ordered from earliest to latest", () => {
-      //Ensuite, les factures doivent être commandées du plus ancien au plus tard
+      //ensuite les notes doivent être en ordre croissant
       document.body.innerHTML = BillsUI({ data: bills });
       const dates = screen
         .getAllByText(

@@ -17,9 +17,9 @@ bill-app/
    - Billed-app-FR-Back
 ```
 
-Clonez le projet frontend dans le dossier bill-app :
+Clonez mon projet frontend dans le dossier bill-app :
 ```
-$ git clone https://github.com/OpenClassrooms-Student-Center/Billed-app-FR-Front.git
+$ git clone https://github.com/sousouben/MouatakideSouad_9_072022_Billed-app-FR.git
 ```
 
 ```
