@@ -16,12 +16,14 @@ export default class NewBill {
     new Logout({ document, localStorage, onNavigate })
   }
   handleChangeFile = e => {
+    document.getElementById("message").hidden = true
     e.preventDefault()
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     //format autorisé
     //[Bug Hunt] - Bills
     const formatAutorise = [ "image/jpg", "image/png","image/jpeg", ]
-    let controlFormat = formatAutorise.includes(file.type)
+    const formatfile = file.type;
+    let controlFormat = formatAutorise.includes(formatfile)//retourne true ou false 
 
     if(controlFormat){ //si le format est bon, on continue
 
@@ -32,7 +34,7 @@ export default class NewBill {
       const email = JSON.parse(localStorage.getItem("user")).email
       formData.append('file', file)
       formData.append('email', email)
-
+      
       this.store
         .bills()
         .create({

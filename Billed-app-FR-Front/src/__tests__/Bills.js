@@ -62,16 +62,16 @@ describe("Given I am connected as an employee", () => {
 
 describe("When I click on first eye icon", () => {//Lorsque je clique sur l'icône du premier œil
   test("Then modal should open", () => {//Ensuite, la modale devrait s'ouvrir
-    Object.defineProperty(window, localStorage, { value: localStorageMock });//renvoie l'objet modifié
-    window.localStorage.setItem("user", JSON.stringify({ type: "Employee" }));
-    const html = BillsUI({ data: bills });
+    Object.defineProperty(window, localStorage, { value: localStorageMock });//simule des données dans le localstorage
+    window.localStorage.setItem("user", JSON.stringify({ type: "Employee" }));//on simule en utilisateur connécter de type employé
+    const html = BillsUI({ data: bills });//création de la constante la modale facture de l'employé
     document.body.innerHTML = html;
 
     const onNavigate = (pathname) => {//navigation vers la route bills
       document.body.innerHTML = ROUTES({ pathname });
     };
 
-    const billsContainer = new Bills({
+    const billsContainer = new Bills({//creation d'une facture
       document,
       onNavigate,
       localStorage: localStorageMock,
@@ -79,17 +79,17 @@ describe("When I click on first eye icon", () => {//Lorsque je clique sur l'icô
     });
 
     //MOCK de la modale
-    $.fn.modal = jest.fn();//jquery
+    $.fn.modal = jest.fn();//affichage de la modale
 
     //MOCK L'ICÔNE DE CLIC
-    const handleClickIconEye = jest.fn(() => {//mock de la fonction
+    const handleClickIconEye = jest.fn(() => {//fonction qui simule un click
       billsContainer.handleClickIconEye;
     });
     const firstEyeIcon = screen.getAllByTestId("icon-eye")[0];
-    firstEyeIcon.addEventListener("click", handleClickIconEye);
-    fireEvent.click(firstEyeIcon);
-    expect(handleClickIconEye).toHaveBeenCalled();//assurer qu'une fonction simulée a été appelée avec des arguments spécifiques
-    expect($.fn.modal).toHaveBeenCalled();
+    firstEyeIcon.addEventListener("click", handleClickIconEye);//surveil un événement au click sur l'oeil
+    fireEvent.click(firstEyeIcon);//click sur l'icone
+    expect(handleClickIconEye).toHaveBeenCalled();//vérifie si l'evenement au click a été appeler
+    expect($.fn.modal).toHaveBeenCalled();// vérifie si la modale est appeler
   });
 });
 
