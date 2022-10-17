@@ -126,13 +126,13 @@ describe('Given I am a user connected as Employee', () => {//Etant donné que je
         const onNavigate = (pathname) => {
            document.body.innerHTML = ROUTES({pathname});
         };
-
+//SIMILATION DE LA CONNECTION DE L EMPLOYEE
         Object.defineProperty(window, 'localStorage', { value: localStorageMock })
         window.localStorage.setItem('user', JSON.stringify({
               type: 'Employee',
               email: "azerty@email.com",
         }))
-
+//SIMULATION DE CREATION DE LA PAGE DE FACTURE
         const newBill = new NewBill({
               document,
               onNavigate,
@@ -165,15 +165,15 @@ describe('Given I am a user connected as Employee', () => {//Etant donné que je
         newBill.fileName = validBill.fileName
         newBill.fileUrl = validBill.fileUrl;
 
-        newBill.updateBill = jest.fn();
-        const handleSubmit = jest.fn((e) => newBill.handleSubmit(e))
+        newBill.updateBill = jest.fn();//SIMULATION DE  CLICK
+        const handleSubmit = jest.fn((e) => newBill.handleSubmit(e))//ENVOI DU FORMULAIRE
 
         const form = screen.getByTestId("form-new-bill");
         form.addEventListener("submit", handleSubmit);
         fireEvent.submit(form)
 
-        expect(handleSubmit).toHaveBeenCalled()
-        expect(newBill.updateBill).toHaveBeenCalled()
+        expect(handleSubmit).toHaveBeenCalled()//VERIFICATION DE L ENVOI DU FORMULAIRE
+        expect(newBill.updateBill).toHaveBeenCalled()//VERIFIE SI LE FORMULAIRE EST ENVOYER DANS LE STORE
         
      })
      

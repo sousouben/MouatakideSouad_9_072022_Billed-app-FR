@@ -118,17 +118,17 @@ describe("When i click the button 'Nouvelle note de frais'", () => {//je clique 
   })
 })
 
-// test const bills ligne 37-57 containers/Bills.js
-describe("When I get bills", () => {//Quand je reçois des factures
-  test("Then it should render bills", async () => {//Ensuite, il devrait rendre les factures
-    const bills = new Bills({
+// test d'integration get bill
+describe("When I get bills", () => {//Quand je demande de récupérer des factures
+  test("Then it should render bills", async () => {//Ensuite, il devrait afficher les factures
+    const bills = new Bills({//récupération des factures dans le store
       document,
       onNavigate,
       store: mockStore,
       localStorage: window.localStorage,
     });
-    const getBills = jest.fn(() => bills.getBills());//MOCK DE BILLS      
-    const value = await getBills();
+    const getBills = jest.fn(() => bills.getBills());//simulation du click       
+    const value = await getBills();//vérification
     expect(getBills).toHaveBeenCalled();//ON TEST SI LA METHODE EST APPELEE
     expect(value.length).toBe(4);//test si la longeur du tableau est a 4 du store.js
   });
@@ -156,7 +156,7 @@ describe("When an error occurs on API", () => { //Lorsqu'une erreur se produit s
   })
 
   test("Then i fetch the invoices in the api and it fails with a 404 error", async () => {//Ensuite, je récupère les factures dans l'api et cela échoue avec une erreur 404
-    mockStore.bills.mockImplementationOnce(() => {//MOCK BILLS DANS LE STORE.JS
+    mockStore.bills.mockImplementationOnce(() => {//changement du comportement pour générer une erreur
       return {
         list: () => {
           return Promise.reject(new Error("Erreur 404"))
